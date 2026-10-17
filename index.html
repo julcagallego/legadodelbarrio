@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Legado del Barrio | Proyecto Transmedia Oficial</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gangRed: '#dc2626',
+                        gangYellow: '#facc15',
+                        gangDark: '#09090b',
+                        gangGray: '#18181b',
+                        gangBorder: '#27272a'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Courier New', 'monospace'],
+                        police: ['Special Elite', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;600;800&family=Special+Elite&display=swap" rel="stylesheet">
+    <style>
+        .font-action { font-family: 'Anton', sans-serif; letter-spacing: 0.05em; }
+        .font-typewriter { font-family: 'Special Elite', cursive; }
+        .neon-glow-red { text-shadow: 0 0 10px rgba(220, 38, 38, 0.8), 0 0 20px rgba(220, 38, 38, 0.5); }
+        .box-glow-red { box-shadow: 0 0 15px rgba(220, 38, 38, 0.4); }
+        .stamp {
+            border: 3px solid #dc2626;
+            color: #dc2626;
+            font-weight: 800;
+            text-transform: uppercase;
+            transform: rotate(-6deg);
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+        }
+        .scanlines {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 4px, 6px 100%;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #09090b; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #dc2626; }
+    </style>
+</head>
+<body class="bg-gangDark text-gray-100 font-sans min-h-screen selection:bg-gangRed selection:text-white">
+
+    <!-- Top Security Header / Banner -->
+    <div class="bg-black border-b border-gangBorder text-xs text-gray-400 py-1.5 px-4 flex justify-between items-center font-mono uppercase tracking-widest">
+        <div class="flex items-center space-x-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-gangRed animate-pulse"></span>
+            <span class="text-gangRed font-bold">ALERTA ROJA:</span> Red Clandestina Activa // El Legado del Barrio
+        </div>
+        <div class="hidden md:block">
+            <span>Ubicación: Lima Metropolitana [Sectores 1 al 5]</span> | <span id="live-clock">00:00:00</span>
+        </div>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-50 bg-gangDark/90 backdrop-blur-md border-b border-gangBorder">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gangRed text-white p-2.5 rounded transform -skew-x-12 box-glow-red">
+                    <i class="fa-solid fa-shield-halved text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-action text-2xl sm:text-3xl text-white tracking-wider uppercase">
+                        EL LEGADO DEL <span class="text-gangRed neon-glow-red">BARRIO</span>
+                    </h1>
+                    <p class="text-[10px] text-gangYellow uppercase font-mono tracking-widest">Proyecto Transmedia Oficial</p>
+                </div>
+            </div>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden lg:flex items-center space-x-6 font-action tracking-wider text-base">
+                <a href="#comics" class="hover:text-gangRed transition-colors duration-200">01. Cómics</a>
+                <a href="#multimedia" class="hover:text-gangRed transition-colors duration-200">02. Audiolibros & Redes</a>
+                <a href="#carnet" class="bg-gangRed hover:bg-red-700 text-white px-5 py-2 rounded skew-x-[-6deg] transition-all duration-200 box-glow-red">
+                    <i class="fa-solid fa-id-card mr-2"></i>Carnet Clandestino
+                </a>
+            </nav>
+
+            <!-- Mobile Menu Button -->
+            <div class="lg:hidden flex items-center">
+                <button id="mobile-menu-btn" class="text-gray-300 hover:text-white p-2 focus:outline-none">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-gangGray border-b border-gangBorder px-4 pt-2 pb-6 space-y-3 font-action text-xl">
+            <a href="#comics" class="block py-2 text-gray-200 hover:text-gangRed border-b border-gangBorder/50">01. Cómics</a>
+            <a href="#multimedia" class="block py-2 text-gray-200 hover:text-gangRed border-b border-gangBorder/50">02. Audiolibros & Redes</a>
+            <a href="#carnet" class="block py-2 text-gangRed hover:text-white font-bold"><i class="fa-solid fa-id-card mr-2"></i>Carnet Clandestino</a>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-20">
+
+        <!-- SECTION 01: COMICS INTERACTIVOS -->
+        <section id="comics" class="space-y-8 scroll-mt-24">
+            <div class="border-l-4 border-gangRed pl-4 py-1">
+                <span class="text-gangRed font-mono text-xs uppercase tracking-widest">// Archivo Gráfico Oficial</span>
+                <h2 class="font-action text-4xl sm:text-5xl text-white tracking-wide uppercase">CÓMICS: EL LEGADO DEL BARRIO</h2>
+                <p class="text-gray-400 text-sm font-typewriter">Selecciona un capítulo para revisar la portada y desplegar las páginas de la investigación.</p>
+            </div>
+
+            <!-- Chapter Selector Tabs -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-sm">
+                <button onclick="selectChapter(1)" id="ch-btn-1" class="p-3 text-left bg-gangRed text-white border border-gangRed rounded transition shadow-md">
+                    <span class="text-xs uppercase block opacity-80">CAPÍTULO 01</span>
+                    <span class="font-bold">Sombras en la Ruta</span>
+                </button>
+                <button onclick="selectChapter(2)" id="ch-btn-2" class="p-3 text-left bg-gangGray text-gray-300 border border-gangBorder hover:border-gangRed rounded transition">
+                    <span class="text-xs uppercase block opacity-60">CAPÍTULO 02</span>
+                    <span class="font-bold">Sombras del Poder</span>
+                </button>
+                <button onclick="selectChapter(3)" id="ch-btn-3" class="p-3 text-left bg-gangGray text-gray-300 border border-gangBorder hover:border-gangRed rounded transition">
+                    <span class="text-xs uppercase block opacity-60">CAPÍTULO 03</span>
+                    <span class="font-bold">Una Advertencia</span>
+                </button>
+                <button onclick="selectChapter(4)" id="ch-btn-4" class="p-3 text-left bg-gangGray text-gray-300 border border-gangBorder hover:border-gangRed rounded transition">
+                    <span class="text-xs uppercase block opacity-60">CAPÍTULO 04</span>
+                    <span class="font-bold">La Nueva Gran Sangre</span>
+                </button>
+            </div>
+
+            <!-- Comic Viewer Box -->
+            <div id="comic-viewer" class="bg-gangGray border border-gangBorder p-6 sm:p-8 rounded-xl shadow-2xl space-y-6">
+                <!-- Injected dynamically via JS -->
+            </div>
+        </section>
+
+        <!-- SECTION 02: AUDIOLIBROS Y REDES SOCIALES -->
+        <section id="multimedia" class="space-y-12 scroll-mt-24">
+            <div class="border-l-4 border-gangYellow pl-4 py-1">
+                <span class="text-gangYellow font-mono text-xs uppercase tracking-widest">// Registros Auditivos & Enlaces</span>
+                <h2 class="font-action text-4xl sm:text-5xl text-white tracking-wide uppercase">AUDIOLIBROS Y REDES SOCIALES</h2>
+                <p class="text-gray-400 text-sm font-typewriter">Escucha los audiolibros oficiales con la carátula de la saga e interactúa con nuestros canales.</p>
+            </div>
+
+            <!-- Social Media Buttons -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <a href="https://www.tiktok.com/@legado.de.barrioo" target="_blank" rel="noopener noreferrer" class="bg-gangGray border border-gangBorder p-6 rounded-xl hover:border-gangRed transition flex items-center space-x-4 group">
+                    <div class="w-14 h-14 bg-black border border-gangBorder rounded-full flex items-center justify-center group-hover:bg-gangRed transition">
+                        <i class="fa-brands fa-tiktok text-2xl text-gangRed group-hover:text-white transition"></i>
+                    </div>
+                    <div>
+                        <span class="font-mono text-xs text-gangRed uppercase tracking-wider block">Canal Oficial TikTok</span>
+                        <span class="font-action text-xl text-white">@legado.de.barrioo</span>
+                    </div>
+                </a>
+
+                <a href="https://www.instagram.com/legado.de.barrio" target="_blank" rel="noopener noreferrer" class="bg-gangGray border border-gangBorder p-6 rounded-xl hover:border-gangRed transition flex items-center space-x-4 group">
+                    <div class="w-14 h-14 bg-black border border-gangBorder rounded-full flex items-center justify-center group-hover:bg-gangRed transition">
+                        <i class="fa-brands fa-instagram text-2xl text-gangRed group-hover:text-white transition"></i>
+                    </div>
+                    <div>
+                        <span class="font-mono text-xs text-gangRed uppercase tracking-wider block">Dossier Instagram</span>
+                        <span class="font-action text-xl text-white">@legado.de.barrio</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Audiobooks Grid (With Official Cover Image) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Audio 1 -->
+                <div class="bg-gangGray border border-gangBorder rounded-xl p-6 flex flex-col justify-between space-y-6 hover:border-gangRed transition">
+                    <div class="space-y-4">
+                        <div class="relative rounded-lg overflow-hidden border border-gangBorder shadow-md">
+                            <img src="https://cdn.julcagallego.com/LegadoDelBarrio/El%20Legado%20Del%20Barrio%20-%20Audiolibro.jpeg" alt="El Legado del Barrio Audiolibro" class="w-full h-48 object-cover">
+                            <span class="absolute top-3 left-3 stamp text-[10px]">AUDIO #01</span>
+                        </div>
+                        <div>
+                            <h3 class="font-action text-2xl text-white">Audiolibro - Capítulo 1</h3>
+                            <p class="font-typewriter text-xs text-gray-400 mt-1">"El primer contacto y la advertencia en las calles de la ruta."</p>
+                        </div>
+                    </div>
+                    <div class="bg-black/50 p-3 rounded border border-gangBorder">
+                        <audio controls class="w-full accent-red-600">
+                            <source src="https://cdn.julcagallego.com/LegadoDelBarrio/Audiolibros/Audiolibro%20cap%201.mp3.mpeg" type="audio/mpeg">
+                            Tu navegador no soporta el elemento de audio.
+                        </audio>
+                    </div>
+                </div>
+
+                <!-- Audio 2 -->
+                <div class="bg-gangGray border border-gangBorder rounded-xl p-6 flex flex-col justify-between space-y-6 hover:border-gangRed transition">
+                    <div class="space-y-4">
+                        <div class="relative rounded-lg overflow-hidden border border-gangBorder shadow-md">
+                            <img src="https://cdn.julcagallego.com/LegadoDelBarrio/El%20Legado%20Del%20Barrio%20-%20Audiolibro.jpeg" alt="El Legado del Barrio Audiolibro" class="w-full h-48 object-cover">
+                            <span class="absolute top-3 left-3 stamp text-[10px]">AUDIO #02</span>
+                        </div>
+                        <div>
+                            <h3 class="font-action text-2xl text-white">Audiolibro - Capítulo 2</h3>
+                            <p class="font-typewriter text-xs text-gray-400 mt-1">"Sombras del poder y los registros offshore descubiertos."</p>
+                        </div>
+                    </div>
+                    <div class="bg-black/50 p-3 rounded border border-gangBorder">
+                        <audio controls class="w-full accent-red-600">
+                            <source src="https://cdn.julcagallego.com/LegadoDelBarrio/Audiolibros/Audiolibro%202.mp3.mpeg" type="audio/mpeg">
+                            Tu navegador no soporta el elemento de audio.
+                        </audio>
+                    </div>
+                </div>
+
+                <!-- Audio 3 -->
+                <div class="bg-gangGray border border-gangBorder rounded-xl p-6 flex flex-col justify-between space-y-6 hover:border-gangRed transition">
+                    <div class="space-y-4">
+                        <div class="relative rounded-lg overflow-hidden border border-gangBorder shadow-md">
+                            <img src="https://cdn.julcagallego.com/LegadoDelBarrio/El%20Legado%20Del%20Barrio%20-%20Audiolibro.jpeg" alt="El Legado del Barrio Audiolibro" class="w-full h-48 object-cover">
+                            <span class="absolute top-3 left-3 stamp text-[10px]">AUDIO #03</span>
+                        </div>
+                        <div>
+                            <h3 class="font-action text-2xl text-white">Audiolibro - Capítulo 3</h3>
+                            <p class="font-typewriter text-xs text-gray-400 mt-1">"Sangre nueva y la persecución final en la red."</p>
+                        </div>
+                    </div>
+                    <div class="bg-black/50 p-3 rounded border border-gangBorder">
+                        <audio controls class="w-full accent-red-600">
+                            <source src="https://cdn.julcagallego.com/LegadoDelBarrio/Audiolibros/audio-libro-3.mp3" type="audio/mpeg">
+                            Tu navegador no soporta el elemento de audio.
+                        </audio>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 03: GENERADOR DE CARNET CLANDESTINO -->
+        <section id="carnet" class="max-w-2xl mx-auto space-y-8 scroll-mt-24">
+            <div class="border-l-4 border-gangRed pl-4 py-1">
+                <span class="text-gangRed font-mono text-xs uppercase tracking-widest">// Reclutamiento Activo</span>
+                <h2 class="font-action text-4xl sm:text-5xl text-white tracking-wide uppercase">CARNET CLANDESTINO</h2>
+                <p class="text-gray-400 text-sm font-typewriter">Inscribe tus datos para emitir tu credencial oficial como miembro de la resistencia urbana.</p>
+            </div>
+
+            <div class="bg-gangGray border border-gangBorder p-6 sm:p-8 rounded-xl shadow-2xl space-y-6">
+                <div class="space-y-4 font-mono">
+                    <div>
+                        <label class="block text-xs text-gray-400 uppercase mb-1">Alias / Nombre de Recluta</label>
+                        <input type="text" id="recrut-name" placeholder="Ej. Elías" class="w-full bg-gangDark border border-gangBorder rounded p-3 text-white focus:border-gangRed outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 uppercase mb-1">Zona de Operaciones Asignada</label>
+                        <select id="recrut-zone" class="w-full bg-gangDark border border-gangBorder rounded p-3 text-white focus:border-gangRed outline-none">
+                            <option>Zona Sur - Villa el Salvador</option>
+                            <option>Zona Norte - Callao</option>
+                            <option>Centro - Lima Cercado</option>
+                            <option>Zona Este - San Juan de Lurigancho</option>
+                        </select>
+                    </div>
+                    <button onclick="generateBadge()" class="w-full py-3.5 bg-gangRed hover:bg-red-700 font-action text-lg tracking-wider rounded uppercase transition-colors text-white shadow-lg box-glow-red">
+                        <i class="fa-solid fa-id-card mr-2"></i>Emitir Credencial Clandestina
+                    </button>
+                </div>
+
+                <!-- Generated Badge Card Preview -->
+                <div id="badge-output" class="hidden mt-6 p-6 bg-gangDark border-2 border-gangRed rounded-lg relative overflow-hidden box-glow-red space-y-4">
+                    <div class="absolute -right-6 -bottom-6 opacity-5 font-action text-9xl text-gangRed pointer-events-none">LGS</div>
+                    <div class="flex justify-between items-start border-b border-gangBorder pb-4">
+                        <div>
+                            <span class="font-mono text-[10px] text-gangRed font-bold uppercase tracking-widest">República de la Calle // Red Clandestina</span>
+                            <h3 class="font-action text-2xl text-white mt-1">CREDENCIAL DE RECLUTA</h3>
+                        </div>
+                        <span class="stamp text-[10px]">AUTORIZADO</span>
+                    </div>
+                    <div class="space-y-2 font-mono text-xs sm:text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">AGENTE:</span>
+                            <span id="output-name" class="text-white font-bold">—</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">SECTOR:</span>
+                            <span id="output-zone" class="text-white font-bold">—</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">FECHA EMISIÓN:</span>
+                            <span id="output-date" class="text-white font-bold">17/10/2026</span>
+                        </div>
+                    </div>
+                    <div class="pt-4 border-t border-gangBorder flex justify-between items-center text-[10px] font-mono text-gray-500">
+                        <span>ID: LGS-8849-CL</span>
+                        <span class="text-gangRed font-bold tracking-widest uppercase">El Barrio No Olvida</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-gangBorder mt-20 py-8 text-center font-mono text-xs text-gray-500 space-y-2 bg-black">
+        <p>EL LEGADO DEL BARRIO — PROYECTO TRANSMEDIA OFICIAL INSPIRADO EN LA GRAN SANGRE</p>
+        <p class="text-[10px]">Todos los derechos reservados © 2026</p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Live Clock Simulation
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('live-clock').innerText = now.toTimeString().split(' ')[0];
+        }, 1000);
+
+        // Comic Data Structure with exact CDN paths for Tomos 1 to 4
+        const comicData = {
+            1: {
+                title: "Capítulo 1: Sombras en la Ruta",
+                cover: "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%201/Portada.jpg",
+                pages: [
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%201/Pagina%201.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%201/Pagina%202.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%201/Pagina%203.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%201/Pagina%204.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%201/Pagina%205.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%201/Pagina%206.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%201/Pagina%207.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%201/Pagina%208.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%201/Pagina%209.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%201/Pagina%2010.jpg"
+                ]
+            },
+            2: {
+                title: "Capítulo 2: Sombras del Poder",
+                cover: "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%202/Portada.jpg",
+                pages: [
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%202/Pagina%20-%201.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%202/Pagina%20-%202.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%202/Pagina%20-%203.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%202/Pagina%20-%204.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%202/Pagina%20-%205.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%202/Pagina%20-%206.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%202/Pagina%20-%207.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%202/Pagina%20-%208.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%202/Pagina%20-%209.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%202/Pagina%20-%2010.jpg"
+                ]
+            },
+            3: {
+                title: "Capítulo 3: Una Advertencia",
+                cover: "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%203/Portada%20-%203.jpg",
+                pages: [
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%203/Pagina%20-%201%20-%203.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%203/Pagina%20-%202%20-%203.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%203/Pagina%20-%203%20-%203.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%203/Pagina%20-%204%20-%203.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%203/Pagina%20-%205%20-3.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%203/Pagina%20-%206%20-%203.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%203/Pagina%20-%207%20-%203.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%203/Pagina%20-%208%20-%203.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%203/Pagina%20-%209%20-%203.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%203/Pagina%20-%2010%20-%203.jpg"
+                ]
+            },
+            4: {
+                title: "Capítulo 4: La Nueva Gran Sangre",
+                cover: "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%204/Portada%20-%204.jpg",
+                pages: [
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%204/Pagina%201%20-%204.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%204/Pagina%202%20-%204.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%204/Pagina%203%20-%204.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%204/Pagina%204%20-%204.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%204/Pagina%205%20-%204.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%204/Pagina%206%20-%204.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%204/Pagina%207%20-%204.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%204/Pagina%208%20-%204.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%204/Pagina%209%20-%204.jpg",
+                    "https://cdn.julcagallego.com/LegadoDelBarrio/Comic%20-%20Tomo%204/Pagina%2010%20-%204.jpg"
+                ]
+            }
+        };
+
+        function selectChapter(chNum) {
+            // Update button styles
+            for(let i=1; i<=4; i++) {
+                const btn = document.getElementById('ch-btn-' + i);
+                if(i === chNum) {
+                    btn.className = "p-3 text-left bg-gangRed text-white border border-gangRed rounded transition shadow-md";
+                } else {
+                    btn.className = "p-3 text-left bg-gangGray text-gray-300 border border-gangBorder hover:border-gangRed rounded transition";
+                }
+            }
+
+            const chapter = comicData[chNum];
+            const viewer = document.getElementById('comic-viewer');
+
+            let html = `
+                <div class="space-y-6">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gangBorder pb-4 gap-4">
+                        <div>
+                            <span class="stamp text-xs">EXPEDIENTE COMPLETO</span>
+                            <h3 class="font-action text-3xl text-white mt-2">${chapter.title}</h3>
+                        </div>
+                        <span class="font-mono text-xs text-gray-400">Portada Oficial + 10 Páginas</span>
+                    </div>
+
+                    <!-- Cover Display -->
+                    <div class="mb-8">
+                        <h4 class="font-mono text-xs text-gangRed uppercase tracking-wider mb-3"><i class="fa-solid fa-bookmark mr-2"></i>Portada Oficial del Capítulo</h4>
+                        <div class="max-w-sm mx-auto rounded-lg overflow-hidden border-2 border-gangRed box-glow-red shadow-xl">
+                            <img src="${chapter.cover}" alt="Portada ${chapter.title}" class="w-full object-cover hover:scale-105 transition duration-300">
+                        </div>
+                    </div>
+
+                    <!-- Pages Grid -->
+                    <div>
+                        <h4 class="font-mono text-xs text-gangRed uppercase tracking-wider mb-4"><i class="fa-solid fa-images mr-2"></i>Secuencia de Páginas</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            `;
+
+            chapter.pages.forEach((page, idx) => {
+                html += `
+                    <div class="border border-gangBorder rounded-lg bg-black p-2 hover:border-gangRed transition group">
+                        <div class="relative overflow-hidden rounded">
+                            <img src="${page}" alt="Página ${idx+1}" class="w-full h-auto object-cover group-hover:scale-105 transition duration-300">
+                            <span class="absolute top-2 left-2 bg-gangDark/90 px-2 py-0.5 rounded text-[10px] font-mono text-gangYellow border border-gangBorder">Pág. ${idx+1}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            viewer.innerHTML = html;
+        }
+
+        function generateBadge() {
+            const name = document.getElementById('recrut-name').value.trim();
+            const zone = document.getElementById('recrut-zone').value;
+
+            if(!name) {
+                alert('Por favor ingresa tu alias o nombre de recluta.');
+                return;
+            }
+
+            document.getElementById('output-name').innerText = name.toUpperCase();
+            document.getElementById('output-zone').innerText = zone;
+            document.getElementById('badge-output').classList.remove('hidden');
+        }
+
+        // Initialize default view to Chapter 1 on load
+        window.onload = function() {
+            selectChapter(1);
+        };
+    </script>
+</body>
+</html>
